@@ -151,8 +151,8 @@
       POWERUP_SIZE: 35,
       SHELL_SIZE: 30,
       SHELL_SPEED: 12,
-      SPAWN_INTERVAL: 1200,
-      POWERUP_INTERVAL: 8000,
+      SPAWN_INTERVAL: 1000,
+      POWERUP_INTERVAL: 6000,
       SHELL_DURATION: 5000,
       ROCKET_DURATION: 5000,
       SHIELD_DURATION: 3000,
@@ -161,10 +161,10 @@
 
     // 关卡配置
     const LEVELS = [
-      { name: '起步', boss: null, bossHP: 0, speed: 3, targetScore: 200 },
-      { name: '城市穿梭', boss: 'taxi', bossHP: 100, speed: 4, targetScore: 500 },
-      { name: '高速狂飙', boss: 'truck', bossHP: 150, speed: 5, targetScore: 1000 },
-      { name: '终极挑战', boss: 'master', bossHP: 200, speed: 6, targetScore: 2000 },
+      { name: '起步', boss: 'scooter', bossHP: 50, speed: 3, targetScore: 100 },
+      { name: '城市穿梭', boss: 'taxi', bossHP: 100, speed: 4, targetScore: 200 },
+      { name: '高速狂飙', boss: 'truck', bossHP: 150, speed: 5, targetScore: 300 },
+      { name: '终极挑战', boss: 'master', bossHP: 200, speed: 6, targetScore: 400 },
     ];
 
     // 道具类型
@@ -504,7 +504,10 @@
       boss.moveTimer++;
       const level = LEVELS[game.level];
 
-      if (boss.type === 'taxi') {
+      if (boss.type === 'scooter') {
+        // 小幅度摆动
+        boss.x = CONFIG.CANVAS_WIDTH / 2 - boss.width / 2 + Math.sin(boss.moveTimer * 0.08) * 60;
+      } else if (boss.type === 'taxi') {
         // 之字形移动
         boss.x = CONFIG.CANVAS_WIDTH / 2 - boss.width / 2 + Math.sin(boss.moveTimer * 0.05) * 120;
       } else if (boss.type === 'truck') {
@@ -822,7 +825,8 @@
       let emoji = '🚕';
       let name = '';
 
-      if (boss.type === 'taxi') { color = '#ffd700'; emoji = '🚕'; name = '出租车司机'; }
+      if (boss.type === 'scooter') { color = '#4169e1'; emoji = '🛵'; name = '外卖小哥'; }
+      else if (boss.type === 'taxi') { color = '#ffd700'; emoji = '🚕'; name = '出租车司机'; }
       else if (boss.type === 'truck') { color = '#ff4757'; emoji = '🚚'; name = '卡车司机'; }
       else if (boss.type === 'master') { color = '#1a1a1a'; emoji = '🏎️'; name = '赛车大师'; }
 

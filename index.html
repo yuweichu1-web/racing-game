@@ -591,6 +591,19 @@
           game.score += 10;
           game.levelScore += 10;
           updateDisplay();
+
+          // 检查是否达到目标分数过关
+          const level = LEVELS[game.level];
+          if (game.levelScore >= level.targetScore) {
+            if (boss) {
+              // 达到分数后，每次撞击给BOSS造成更多伤害
+              boss.hp -= 50;
+              game.score += 50;
+            } else {
+              // 没有BOSS，直接过关
+              levelComplete();
+            }
+          }
         }
 
         // 移除
